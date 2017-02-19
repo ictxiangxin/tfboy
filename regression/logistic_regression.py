@@ -11,6 +11,13 @@ class LogisticRegression:
         self.__w = None
         self.__b = None
 
+    def __del__(self):
+        try:
+            self.__session.close()
+        finally:
+            pass
+
+
     def w(self):
         if self.__w is not None:
             return self.__session.run(self.__w)

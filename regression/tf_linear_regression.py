@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class LinearRegression:
+class TFLinearRegression:
     def __init__(self, rate: float, loss_threshold: float=0.0001, max_epochs: int=1000):
         self.__rate = rate
         self.__loss_threshold = tf.constant(loss_threshold)
@@ -17,7 +17,6 @@ class LinearRegression:
             self.__session.close()
         finally:
             pass
-
 
     def w(self):
         if self.__w is not None:

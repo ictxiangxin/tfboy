@@ -9,12 +9,16 @@ class TFSolveEquation:
         self.__max_epochs = max_epochs
         self.__session = tf.Session()
         self.__x = None
+        self.__loss = 0
 
     def __del__(self):
         try:
             self.__session.close()
         finally:
             pass
+
+    def loss(self):
+        return self.__loss
 
     def solve(self, coefficients, b):
         coefficients_data = np.array(coefficients)
@@ -31,4 +35,5 @@ class TFSolveEquation:
             if epoch % 10 == 0:
                 if self.__session.run(loss < self.__loss_threshold, {_a: coefficients_data, _b: b_data}):
                     break
+        self.__loss = self.__session.run(loss, {_a: coefficients_data, _b: b_data})
         return self.__session.run(_x)

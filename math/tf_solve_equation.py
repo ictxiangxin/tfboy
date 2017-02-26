@@ -22,11 +22,12 @@ class TFSolveEquation:
 
     def solve(self, coefficients, b):
         coefficients_data = np.array(coefficients)
+        x_dim = coefficients_data.shape[1]
         b_data = np.array(b)
         _a = tf.placeholder(tf.float32)
         _b = tf.placeholder(tf.float32)
-        _x = tf.Variable(tf.zeros([coefficients_data.shape[1], 1]))
-        loss = tf.reduce_mean(tf.square(tf.matmul(_a, _x) - _b))
+        _x = tf.Variable(tf.zeros([x_dim, 1]))
+        loss = tf.reduce_sum(tf.square(tf.matmul(_a, _x) - _b)) / (2 * x_dim)
         optimizer = tf.train.GradientDescentOptimizer(self.__rate)
         model = optimizer.minimize(loss)
         self.__session.run(tf.global_variables_initializer())

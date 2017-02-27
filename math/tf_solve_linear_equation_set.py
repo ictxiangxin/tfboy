@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 
 
-class TFSolveEquation:
+class TFSolveLinearEquationSet:
     def __init__(self, rate: float, loss_threshold: float=0.0001, max_epochs: int=1000):
         self.__rate = rate
         self.__loss_threshold = tf.constant(loss_threshold)
@@ -38,6 +38,3 @@ class TFSolveEquation:
                     break
         self.__loss = self.__session.run(loss, {_a: a_data, _b: b_data})
         return self.__session.run(_x)
-
-s = TFSolveEquation(0.1, max_epochs=10000)
-print(s.solve([[1, 2], [1, 3]], [3, 4]))

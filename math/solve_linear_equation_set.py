@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class SolveEquation:
+class SolveLinearEquationSet:
     def __init__(self, rate: float, loss_threshold: float=0.0001, max_epochs: int=1000, auto_rate: bool=True):
         self.__rate = rate
         self.__loss_threshold = loss_threshold

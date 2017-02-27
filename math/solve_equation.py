@@ -18,8 +18,9 @@ class SolveEquation:
 
     def solve(self, coefficients, b):
         _a = np.array(coefficients)
-        _b = np.array(b).reshape([len(b), 1])
-        _x = np.zeros([_a.shape[1], 1])
+        x_dim = _a.shape[1]
+        _b = np.array(b).reshape([x_dim, 1])
+        _x = np.zeros([x_dim, 1])
         old_loss = np.mean(np.square(np.subtract(np.matmul(_a, _x), _b)))
         count = 0
         for epoch in range(self.__max_epochs):

@@ -21,20 +21,23 @@ class TFSolveEquation:
         return self.__loss
 
     def solve(self, coefficients, b):
-        coefficients_data = np.array(coefficients)
-        x_dim = coefficients_data.shape[1]
-        b_data = np.array(b)
+        a_data = np.array(coefficients)
+        x_dim = a_data.shape[1]
+        b_data = np.array(b).reshape([x_dim, 1])
         _a = tf.placeholder(tf.float32)
         _b = tf.placeholder(tf.float32)
         _x = tf.Variable(tf.zeros([x_dim, 1]))
-        loss = tf.reduce_sum(tf.square(tf.matmul(_a, _x) - _b)) / (2 * x_dim)
+        loss = tf.reduce_mean(tf.square(tf.matmul(_a, _x) - _b))
         optimizer = tf.train.GradientDescentOptimizer(self.__rate)
         model = optimizer.minimize(loss)
         self.__session.run(tf.global_variables_initializer())
         for epoch in range(self.__max_epochs):
-            self.__session.run(model, {_a: coefficients_data, _b: b_data})
+            self.__session.run(model, {_a: a_data, _b: b_data})
             if epoch % 10 == 0:
-                if self.__session.run(loss < self.__loss_threshold, {_a: coefficients_data, _b: b_data}):
+                if self.__session.run(loss < self.__loss_threshold, {_a: a_data, _b: b_data}):
                     break
-        self.__loss = self.__session.run(loss, {_a: coefficients_data, _b: b_data})
+        self.__loss = self.__session.run(loss, {_a: a_data, _b: b_data})
         return self.__session.run(_x)
+
+s = TFSolveEquation(0.1, max_epochs=10000)
+print(s.solve([[1, 2], [1, 3]], [3, 4]))
